@@ -10,6 +10,17 @@
 <%@ page import="java.io.ByteArrayInputStream"%>
 <%@ page import="java.io.Writer" %>
 <%@ page import="java.io.StringWriter" %>
+<%@ page import="javax.xml.transform.stream.StreamSource" %>
+<%@ page import="nl.nn.testtool.trace.SaxonTemplateTraceListener" %>
+<%@ page import="javax.xml.transform.Transformer" %>
+<%@ page import="net.sf.saxon.trans.XsltController" %>
+<%@ page import="net.sf.saxon.lib.StandardLogger" %>
+<%@ page import="javax.xml.transform.stream.StreamResult" %>
+<%@ page import="nl.nn.testtool.transform.XslTransformerReporter" %>
+<%@ page import="java.io.File" %>
+<%@ page import="nl.nn.testtool.trace.XalanTemplateTraceListener" %>
+<%@ page import="javax.xml.transform.Result" %>
+<%@ page import="org.apache.xalan.trace.TraceManager" %>
 <%
 	ServletContext servletContext = request.getSession().getServletContext();
 	WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
@@ -26,6 +37,71 @@
 
 	// Create report links
 	String createReportAction = request.getParameter("createReport");
+
+	reportNames.add(reportName = "Saxon testing");
+	if (reportName.equals(createReportAction)){
+		try {
+			StreamSource xmlSource = new StreamSource("foo.xml");
+			StreamSource xslSource = new StreamSource("foo1.xsl");
+
+			net.sf.saxon.TransformerFactoryImpl transformerFactory = new net.sf.saxon.TransformerFactoryImpl();
+			Transformer transformer = transformerFactory.newTransformer(xslSource);
+			net.sf.saxon.jaxp.TransformerImpl transformerImpl = (net.sf.saxon.jaxp.TransformerImpl) transformer;
+			XsltController controller = transformerImpl.getUnderlyingController();
+
+			SaxonTemplateTraceListener listener = new SaxonTemplateTraceListener();
+
+			StandardLogger logger = new StandardLogger();
+			logger.setPrintStream(System.out);
+
+			controller.setTraceListener(listener);
+
+			StringWriter writer = new StringWriter();
+			StreamResult result = new StreamResult(writer);
+
+			transformerImpl.getUnderlyingController().getInitialMode().setModeTracing(true);
+
+			transformer.transform(xmlSource, result);
+
+			XslTransformerReporter.initiate(testTool, new File(xmlSource.getSystemId()), new File(xslSource.getSystemId()), listener.getTemplateTraces(), writer.toString(), correlationId, reportName);
+
+			writer.close();
+			logger.close();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	reportNames.add(reportName = "Xalan Testing");
+	if (reportName.equals(createReportAction)){
+		StreamSource xmlSource = new StreamSource("foo.xml");
+		StreamSource xslSource = new StreamSource("foo1.xsl");
+
+		XalanTemplateTraceListener templateTraceListener = new XalanTemplateTraceListener();
+
+		templateTraceListener.m_traceElements = true;
+		templateTraceListener.m_traceTemplates = true;
+		templateTraceListener.m_traceGeneration = true;
+		templateTraceListener.m_traceSelection = true;
+
+		StringWriter writer = new StringWriter();
+		Result result = new StreamResult(writer);
+		try {
+			org.apache.xalan.processor.TransformerFactoryImpl transformerFactory = new org.apache.xalan.processor.TransformerFactoryImpl();
+			Transformer transformer = transformerFactory.newTransformer(xslSource);
+			org.apache.xalan.transformer.TransformerImpl transformerImpl = (org.apache.xalan.transformer.TransformerImpl) transformer;
+
+			TraceManager trMgr = transformerImpl.getTraceManager();
+			trMgr.addTraceListener(templateTraceListener);
+
+			transformer.transform(xmlSource, result);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+
+		XslTransformerReporter.initiate(testTool, new File(xmlSource.getSystemId()), new File(xslSource.getSystemId()), templateTraceListener.getTemplateTraces(), writer.toString(), correlationId, reportName);
+	}
+
 	reportNames.add(reportName = "Simple report");
 	if (reportName.equals(createReportAction)) {
 		testTool.startpoint(correlationId, null, reportName, "Hello World!");
