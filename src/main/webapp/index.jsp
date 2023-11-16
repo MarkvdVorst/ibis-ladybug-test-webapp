@@ -63,7 +63,7 @@
 
 			transformer.transform(xmlSource, result);
 
-			XslTransformerReporter.initiate(testTool, new File(xmlSource.getSystemId()), new File(xslSource.getSystemId()), listener.getTemplateTraces(), writer.toString(), correlationId, reportName);
+			XslTransformerReporter.initiate(testTool, new File(xmlSource.getSystemId()), new File(xslSource.getSystemId()), listener.getRootTrace(), writer.toString(), correlationId, reportName);
 
 			writer.close();
 			logger.close();
@@ -99,7 +99,7 @@
 			throw new RuntimeException(e);
 		}
 
-		XslTransformerReporter.initiate(testTool, new File(xmlSource.getSystemId()), new File(xslSource.getSystemId()), templateTraceListener.getTemplateTraces(), writer.toString(), correlationId, reportName);
+		XslTransformerReporter.initiate(testTool, new File(xmlSource.getSystemId()), new File(xslSource.getSystemId()), templateTraceListener.getRootTrace(), writer.toString(), correlationId, reportName);
 	}
 
 	reportNames.add(reportName = "Simple report");
