@@ -1,5 +1,4 @@
 <%@ page import="nl.nn.testtool.TestTool"%>
-<%@ page import="nl.nn.testtool.MessageEncoderImpl"%>
 <%@ page import="nl.nn.testtool.storage.LogStorage"%>
 <%@ page import="org.springframework.web.context.WebApplicationContext"%>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
@@ -16,11 +15,11 @@
 <%@ page import="net.sf.saxon.trans.XsltController" %>
 <%@ page import="net.sf.saxon.lib.StandardLogger" %>
 <%@ page import="javax.xml.transform.stream.StreamResult" %>
-<%@ page import="nl.nn.testtool.transform.XslTransformerReporter" %>
 <%@ page import="java.io.File" %>
 <%@ page import="nl.nn.testtool.trace.XalanTemplateTraceListener" %>
 <%@ page import="javax.xml.transform.Result" %>
 <%@ page import="org.apache.xalan.trace.TraceManager" %>
+<%@ page import="nl.nn.testtool.transform.XSLTTraceReporter" %>
 <%
 	ServletContext servletContext = request.getSession().getServletContext();
 	WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
@@ -63,7 +62,7 @@
 
 			transformer.transform(xmlSource, result);
 
-			XslTransformerReporter.initiate(testTool, new File(xmlSource.getSystemId()), new File(xslSource.getSystemId()), listener.getRootTrace(), writer.toString(), correlationId, reportName);
+			XSLTTraceReporter.initiate(testTool, new File(xmlSource.getSystemId()), new File(xslSource.getSystemId()), listener.getRootTrace(), writer.toString(), correlationId, reportName);
 
 			writer.close();
 			logger.close();
@@ -99,7 +98,7 @@
 			throw new RuntimeException(e);
 		}
 
-		XslTransformerReporter.initiate(testTool, new File(xmlSource.getSystemId()), new File(xslSource.getSystemId()), templateTraceListener.getRootTrace(), writer.toString(), correlationId, reportName);
+		XSLTTraceReporter.initiate(testTool, new File(xmlSource.getSystemId()), new File(xslSource.getSystemId()), templateTraceListener.getRootTrace(), writer.toString(), correlationId, reportName);
 	}
 
 	reportNames.add(reportName = "Simple report");
