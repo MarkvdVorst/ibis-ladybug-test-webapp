@@ -10,16 +10,22 @@
 <%@ page import="java.io.Writer" %>
 <%@ page import="java.io.StringWriter" %>
 <%@ page import="javax.xml.transform.stream.StreamSource" %>
-<%@ page import="nl.nn.testtool.trace.SaxonTemplateTraceListener" %>
 <%@ page import="javax.xml.transform.Transformer" %>
 <%@ page import="net.sf.saxon.trans.XsltController" %>
 <%@ page import="net.sf.saxon.lib.StandardLogger" %>
 <%@ page import="javax.xml.transform.stream.StreamResult" %>
 <%@ page import="java.io.File" %>
-<%@ page import="nl.nn.testtool.trace.XalanTemplateTraceListener" %>
 <%@ page import="javax.xml.transform.Result" %>
 <%@ page import="org.apache.xalan.trace.TraceManager" %>
-<%@ page import="nl.nn.testtool.transform.XSLTTraceReporter" %>
+<%@ page import="org.wearefrank.trace.SaxonTemplateTraceListener" %>
+<%@ page import="org.wearefrank.trace.XalanTemplateTraceListener" %>
+<%@ page import="org.wearefrank.XSLTTraceReporter" %>
+<%@ page import="org.wearefrank.Receiver.SaxonOutputReceiver" %>
+<%@ page import="org.wearefrank.Receiver.SaxonElementReceiver" %>
+<%@ page import="org.wearefrank.Receiver.SaxonWriterReceiver" %>
+<%@ page import="net.sf.saxon.s9api.XsltTransformer" %>
+<%@ page import="net.sf.saxon.s9api.Serializer" %>
+<%@ page import="net.sf.saxon.s9api.Processor" %>
 <%
 	ServletContext servletContext = request.getSession().getServletContext();
 	WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
@@ -37,6 +43,41 @@
 	// Create report links
 	String createReportAction = request.getParameter("createReport");
 
+	reportNames.add(reportName = "SaxonContentHandler testing");
+	if(reportName.equals(createReportAction)){
+		try {
+			StreamSource xmlSource = new StreamSource("foo.xml");
+			StreamSource xslSource = new StreamSource("foo1.xsl");
+
+			net.sf.saxon.TransformerFactoryImpl transformerFactory = new net.sf.saxon.TransformerFactoryImpl();
+			Transformer transformer = transformerFactory.newTransformer(xslSource);
+			net.sf.saxon.jaxp.TransformerImpl transformerImpl = (net.sf.saxon.jaxp.TransformerImpl) transformer;
+			XsltController controller = transformerImpl.getUnderlyingController();
+
+			SaxonTemplateTraceListener listener = new SaxonTemplateTraceListener();
+
+			controller.setTraceListener(listener);
+
+			StringWriter writer = new StringWriter();
+
+			SaxonElementReceiver elementReceiver = new SaxonElementReceiver(listener);
+			SaxonWriterReceiver writerReceiver = new SaxonWriterReceiver(writer);
+
+			SaxonOutputReceiver receiver = new SaxonOutputReceiver(transformerImpl.getUnderlyingController().makeBuilder(), writerReceiver, elementReceiver);
+
+			transformerImpl.getUnderlyingController().getInitialMode().setModeTracing(true);
+
+			//todo: it is possible to replace result with the handler variable. now I just need to make it so it also writes to the streamresult.
+			//todo: look more at resultdocumentresolver class. by implementing it into a new class I might be able to have both result objects in one
+			transformerImpl.transform(xmlSource, receiver);
+
+			XSLTTraceReporter.initiate(testTool, new File(xmlSource.getSystemId()), new File(xslSource.getSystemId()), listener.getRootTrace(), writer.toString(), correlationId, reportName);
+
+			writer.close();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
 	reportNames.add(reportName = "Saxon testing");
 	if (reportName.equals(createReportAction)){
 		try {
