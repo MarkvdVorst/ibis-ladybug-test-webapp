@@ -26,6 +26,12 @@
 	reportNames.add(reportName = "xsltsetup SAXON");
 	if(reportName.equals(createReportAction)){
 		try {
+			//zet andere files hierin. default moet null zijn.
+			//root is frank-runner folder
+			String xmlOverride = null;
+			String xslOverride = null;
+
+
 			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
 			URL xmlURL = classLoader.getResource("/foo.xml");
@@ -36,6 +42,13 @@
 
 			File xmlFile = new File(xmlURL.getFile());
 			File xslFile = new File(xslURL.getFile());
+
+			if(xmlOverride != null){
+				xmlFile = new File(xmlOverride);
+			}
+			if(xslOverride != null){
+				xslFile = new File(xslOverride);
+			}
 
 			XSLTReporterSetup reporterSetup = new XSLTReporterSetup(xmlFile, xslFile, 2);
 			reporterSetup.transform();
@@ -49,6 +62,12 @@
 	reportNames.add(reportName = "xsltsetup XALAN");
 	if(reportName.equals(createReportAction)){
 		try {
+			//zet andere files hierin. default moet null zijn.
+			//root is frank-runner folder
+			String xmlOverride = null;
+			String xslOverride = null;
+
+
 			ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 
 			URL xmlURL = classLoader.getResource("/foo.xml");
@@ -63,6 +82,13 @@
 
 			File xmlFile = new File(xmlURL.getFile());
 			File xslFile = new File(xslURL.getFile());
+
+			if(xmlOverride != null){
+				xmlFile = new File(xmlOverride);
+			}
+			if(xslOverride != null){
+				xslFile = new File(xslOverride);
+			}
 
 			XSLTReporterSetup reporterSetup = new XSLTReporterSetup(xmlFile, xslFile, 1);
 			reporterSetup.transform();
