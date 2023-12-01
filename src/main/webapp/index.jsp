@@ -2,21 +2,9 @@
 <%@ page import="nl.nn.testtool.storage.LogStorage"%>
 <%@ page import="org.springframework.web.context.WebApplicationContext"%>
 <%@ page import="org.springframework.web.context.support.WebApplicationContextUtils"%>
-<%@ page import="javax.xml.transform.stream.StreamSource" %>
-<%@ page import="javax.xml.transform.Transformer" %>
-<%@ page import="net.sf.saxon.trans.XsltController" %>
-<%@ page import="net.sf.saxon.lib.StandardLogger" %>
-<%@ page import="javax.xml.transform.stream.StreamResult" %>
-<%@ page import="javax.xml.transform.Result" %>
-<%@ page import="org.apache.xalan.trace.TraceManager" %>
-<%@ page import="org.wearefrank.trace.SaxonTemplateTraceListener" %>
-<%@ page import="org.wearefrank.trace.XalanTemplateTraceListener" %>
-<%@ page import="org.wearefrank.XSLTTraceReporter" %>
-<%@ page import="org.wearefrank.Receiver.SaxonOutputReceiver" %>
-<%@ page import="org.wearefrank.Receiver.SaxonElementReceiver" %>
-<%@ page import="org.wearefrank.Receiver.SaxonWriterReceiver" %>
+<%@ page import="org.wearefrank.xsltdebugger.XSLTTraceReporter" %>
 <%@ page import="java.io.*" %>
-<%@ page import="org.wearefrank.XSLTReporterSetup" %>
+<%@ page import="org.wearefrank.xsltdebugger.XSLTReporterSetup" %>
 <%@ page import="java.net.URL" %>
 <%@ page import="java.util.*" %>
 <%
