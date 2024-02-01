@@ -28,7 +28,7 @@
         }
         
         XSLTTraceReporter.initiate(testTool, setup, correlationId, reportName);
-        response.sendRedirect("/testtool");
+        response.sendRedirect("/ladybug");
 
     }catch(Exception e){
         System.out.println(e.toString());

@@ -6,24 +6,24 @@
     <h1>Enter Text</h1>
 
     <form method="post" action="xslt-debugger.jsp">
-        <div class="xslt-input">
-            <textarea placeholder="XML INPUT" autocomplete="off" spellcheck="false" id="xmlInput" name="xmlInput" rows="5" cols="50"></textarea>
+        <div class="form-container">
+            <div class="xslt-input">
+                <textarea placeholder="XML INPUT" autocomplete="off" spellcheck="false" id="xmlInput" name="xmlInput" rows="5" cols="50"></textarea>
 
-            <br>
+                <br>
 
-            <textarea placeholder="XSL INPUT" autocomplete="off" spellcheck="false" id="xslInput" name="xslInput" rows="5" cols="50"></textarea>
+                <textarea placeholder="XSL INPUT" autocomplete="off" spellcheck="false" id="xslInput" name="xslInput" rows="5" cols="50"></textarea>
+            </div>
+
+            <label for="xsltVersion">XSLT Version: </label>
+            <select id="xsltVersion" name="xsltVersion" rows="5" cols="50">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+            </select>
+            <br/>
+            <input class="a-button" type="submit" value="Transform!">
         </div>
-
-        <br>
-
-        <label for="xsltVersion">XSLT Version: </label>
-        <select id="xsltVersion" name="xsltVersion" rows="5" cols="50">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-        </select>
-
-        <input type="submit" value="Submit">
     </form>
 
 

@@ -7,19 +7,41 @@ body {
     background-color: transparent;
 }
 
+.form-container {
+    margin: 2rem;
+}
+
 .xslt-input {
     display: flex;
+    justify-content: space-between;
 }
 
 textarea {
-    margin: 5px;
+    font-size: 12pt;
+    padding: 1rem;
     background-color: rgba(0,0,0,1.0);
     border-radius: 4px;
     color: #fdc300;
     resize: none;
     height: 50vh;
-    width: 50vw;
+    width: 48%;
+}
 
+.a-button {
+    padding: 11px 20px 7px;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 21px;
+    background-color: #fdc300;
+    font-weight: 700;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    line-height: 1.5rem;
+}
+
+.a-button:hover {
+    cursor: pointer;
 }
 
 textarea::placeholder {
