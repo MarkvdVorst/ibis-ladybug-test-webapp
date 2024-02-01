@@ -1,45 +1,47 @@
 <html>
 <head>
-  <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
-<h1>Enter Text</h1>
+<body>
+    <h1>Enter Text</h1>
 
-<form method="post" action="xslt-debugger.jsp">
-  <label for="xmlInput">XML: </label>
-  <textarea id="xmlInput" name="xmlInput" rows="5" cols="50"></textarea>
+    <form method="post" action="xslt-debugger.jsp">
+        <div class="xslt-input">
+            <textarea placeholder="XML INPUT" autocomplete="off" spellcheck="false" id="xmlInput" name="xmlInput" rows="5" cols="50"></textarea>
 
-  <br>
+            <br>
 
-  <label for="xslInput">XSL: </label>
-  <textarea id="xslInput" name="xslInput" rows="5" cols="50"></textarea>
+            <textarea placeholder="XSL INPUT" autocomplete="off" spellcheck="false" id="xslInput" name="xslInput" rows="5" cols="50"></textarea>
+        </div>
 
-  <br>
+        <br>
 
-  <label for="xsltVersion">XSLT Version: </label>
-  <textarea id="xsltVersion" name="xsltVersion" rows="5" cols="50"></textarea>
+        <label for="xsltVersion">XSLT Version: </label>
+        <select id="xsltVersion" name="xsltVersion" rows="5" cols="50">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+        </select>
 
-  <br>
-  <input type="submit" value="Submit">
-</form>
+        <input type="submit" value="Submit">
+    </form>
 
-<div>
-  <div style="tab-size: 4;" spellcheck="false" autocorrect="off" autocapitalize="none" translate="no" contenteditable="true" class="cm-content cm-lineWrapping" role="textbox" aria-multiline="true">
-  </div>
-</div>
 
-<h1>Browse</h1>
+    <!-- don't touch, ladybug shizzle -->
+    <h1>Browse</h1>
 
-<a href="testtool">Old Echo2 GUI</a><br/>
+    <a href="testtool">Old Echo2 GUI</a><br/>
 
-<br/>
+    <br/>
 
-<a href="ladybug">New Angular GUI</a><br/>
-<a href="http://localhost:4200">New Angular GUI using Node.js</a><br/>
+    <a href="ladybug">New Angular GUI</a><br/>
+    <a href="http://localhost:4200">New Angular GUI using Node.js</a><br/>
 
-<br/>
+    <br/>
 
-<a href="ladybug/api/testtool">TestTool API</a><br/>
-<a href="http://localhost:4200/api/testtool">TestTool API proxied by Node.js</a><br/>
+    <a href="ladybug/api/testtool">TestTool API</a><br/>
+    <a href="http://localhost:4200/api/testtool">TestTool API proxied by Node.js</a><br/>
 
-<br/>
+    <br/>
+</body>
 </html>

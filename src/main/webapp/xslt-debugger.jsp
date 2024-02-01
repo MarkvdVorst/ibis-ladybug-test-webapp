@@ -32,7 +32,7 @@
     }
 
     XSLTTraceReporter.initiate(testTool, setup, correlationId, reportName);
-//    response.sendRedirect("/testtool");
+    response.sendRedirect("/testtool");
 %>
 
 <html>
