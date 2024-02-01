@@ -26,7 +26,7 @@
         } else {
             reportName = "Saxon";
         }
-
+        
         XSLTTraceReporter.initiate(testTool, setup, correlationId, reportName);
         response.sendRedirect("/testtool");
 
@@ -34,6 +34,7 @@
         System.out.println(e.toString());
         response.sendRedirect("error-page.jsp");
     }
+
 %>
 
 <html>

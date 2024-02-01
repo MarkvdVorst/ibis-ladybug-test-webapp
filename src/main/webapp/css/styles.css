@@ -1,17 +1,32 @@
 /* styles.css */
+@import url('https://fonts.cdnfonts.com/css/gilroy-bold');
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #eca831;
+    font-family: Gilroy-Bold, sans-serif;
+    color: black;
+    background-color: transparent;
 }
 
-h1 {
-    color: #333;
+.xslt-input {
+    display: flex;
 }
 
-/* Add more styles as needed */
+textarea {
+    margin: 5px;
+    background-color: rgba(0,0,0,1.0);
+    border-radius: 4px;
+    color: #fdc300;
+    resize: none;
+    height: 50vh;
+    width: 50vw;
 
+}
+
+textarea::placeholder {
+    font-size: 24pt;
+}
 
 .cm-content {
-    border: solid 1px black;
+    border: solid 2px black;
 
 }
